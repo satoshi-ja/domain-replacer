@@ -1,0 +1,20 @@
+name: デプロイ to ロリポップ
+
+on:
+  push:
+    branches: [ main ]  # mainブランチに変更があった時に実行
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2  # コードをダウンロード
+    
+    - name: FTPデプロイ
+      uses: SamKirkland/FTP-Deploy-Action@4.0.0
+      with:
+        server: ftp.lolipop.jp
+        username: lolipop.jp-dp59258021
+        password: ${{ secrets.FTP_PASSWORD }}  # GitHubのシークレットに保存したパスワード
+        local-dir: ./  # アップロードするフォルダ
+        server-dir: /domain-replacer/  # 例：/public_html/
